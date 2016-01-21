@@ -29,6 +29,7 @@ describe("pi-livolo", function() {
                   it("should write the value of the pin", function(done) {
                      livolo.write(31565, 8, function(err) {
                         should.not.exist(err);
+                        });
                      });
                   });
          
@@ -36,3 +37,4 @@ describe("pi-livolo", function() {
                livolo.close(1, done);
                });
          });
+});
