@@ -18,6 +18,10 @@
     "type": "git",
     "url": "git://github.com/rafflesgun/pi-livolo.git"
   },
+  "main": "./pi-livolo.js",
+  "engines": {
+    "node": "*"
+  },
   "dependencies": {
     "ffi": "*"
   },
