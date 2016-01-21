@@ -7,7 +7,7 @@ var libwiringPi = ffi.Library('/usr/local/lib/libwiringPi', {
                               'delayMicroseconds' :  [ 'void', ['int', 'int'] ]
                               });
 
-var libLivolo = ffi.Library('./libLivoloWrapper', {
+var libLivolo = ffi.Library('libLivoloWrapper', {
                             'newLivolo' : ['pointer', ['char'] ],
                             'Livolo_SendButton': ['void', [ 'pointer', 'int', 'char' ] ],
                             'deleteLivolo': ['void', [ 'pointer' ] ]
@@ -46,12 +46,20 @@ function isNumber(number) {
     return !isNaN(parseInt(number, 10));
 }
 
+function sanitizeNumber(pinNumber) {
+    if (!isNumber(pinNumber)) {
+        throw new Error("Invalid number.");
+    }
+    
+    return parseInt(pinNumber, 10);
+}
+
 function sanitizePinNumber(pinNumber) {
     if (!isNumber(pinNumber) || !isNumber(pinMapping[pinNumber])) {
         throw new Error("Pin number isn't valid");
     }
     
-    return parseInt(pinNumber, 10);
+    return parseInt(pinMapping[pinNumber], 10);
 }
 
 var livolo = {
@@ -80,15 +88,37 @@ close: function(pinNumber, callback) {
 },
     
 read: function(groupId, deviceId, callback) {
-    groupId = sanitizePinNumber(groupId);
-    deviceId = sanitizePinNumber(deviceId);
+    groupId = sanitizeNumber(groupId);
+    deviceId = sanitizeNumber(deviceId);
 },
     
 write: function(groupId, deviceId, callback) {
-    groupId = sanitizePinNumber(groupId);
-    deviceId = sanitizePinNumber(deviceId);
-    
+    groupId = sanitizeNumber(groupId);
+    deviceId = sanitizeNumber(deviceId);
+    console.log("write: groupId: " + groupId + " deviceId: " + deviceId)
+
     libLivolo.Livolo_SendButton(mySwitch, groupId, deviceId);
+},
+
+toggle: function(pinNumber, groupId, deviceId) {
+    pinNumber = sanitizePinNumber(pinNumber);
+    groupId = sanitizeNumber(groupId);
+    deviceId = sanitizeNumber(deviceId);
+
+    console.log("Toogle: pinNumber: " + pinNumber + " groupId: " + groupId + " deviceId: " + deviceId)
+	
+    toggleSwitch = libLivolo.newLivolo(pinNumber);
+    
+    if (libwiringPi.wiringPiSetup() == -1){
+        throw new Error("Error initialising WiringPi");
+    }
+    
+    if (toggleSwitch.isNull()) {
+        throw new Error("Error initialising Livolo");
+    }
+    else {
+    	libLivolo.Livolo_SendButton(toggleSwitch, groupId, deviceId);
+    }
 }
 };
 
