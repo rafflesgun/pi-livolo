@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "Raffles Gun",
+    "email": "rafflesgun@gmail.com",
+    "url": "https://github.com/rafflesgun/"
+  },
+  "contributors": [
+    { "name": "Victor Chua", "email": "victorchuack@gmail.com" }
+  ],
+  "name": "pi-livolo",
+  "description": "Livolo",
+  "version": "0.0.1",
+  "keywords": [
+    "pi",
+    "livolo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rafflesgun/pi-livolo.git"
+  },
+  "dependencies": {
+    "ffi": "*"
+  },
+  "devDependencies": {}
+}
