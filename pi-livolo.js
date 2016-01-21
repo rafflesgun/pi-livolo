@@ -5,12 +5,13 @@ var libwiringPi = ffi.Library('/usr/local/lib/libwiringPi', {
                               'digitalWrite' : [ 'void', ['int', 'int'] ],
                               'pinMode': [ 'void', ['int', 'int'] ],
                               'delayMicroseconds' :  [ 'void', ['int', 'int'] ]
-                              })
+                              });
 
 var libLivolo = ffi.Library('./libLivoloWrapper', {
-                              'newLivolo' : ['pointer', ['char'] ],
-                              'Livolo_SendButton': ['void', [ 'pointer', 'int', 'char' ] ]
-                              })
+                            'newLivolo' : ['pointer', ['char'] ],
+                            'Livolo_SendButton': ['void', [ 'pointer', 'int', 'char' ] ],
+                            'deleteLivolo': ['void', [ 'pointer' ] ]
+                            });
 
 var pinMapping = {
     "3": 8,
@@ -55,7 +56,7 @@ function sanitizePinNumber(pinNumber) {
 
 var livolo = {
 
-mySwitch,
+mySwitch: null,
     
 open: function(pinNumber, callback) {
     pinNumber = sanitizePinNumber(pinNumber);
@@ -75,7 +76,7 @@ open: function(pinNumber, callback) {
 close: function(pinNumber, callback) {
     pinNumber = sanitizePinNumber(pinNumber);
     
-    libLivolo.delete(mySwitch);
+    libLivolo.deleteLivolo(mySwitch);
 },
     
 read: function(groupId, deviceId, callback) {
