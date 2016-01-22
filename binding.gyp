@@ -1,6 +1,6 @@
 {
     "targets": [{
-                "target_name": "prime",
+                "target_name": "livolo",
                 "type": "shared_library",
                 "sources": [ "livolo.cpp"],
                 "cflags": ["-Wall", "-std=c++11"],
