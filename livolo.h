@@ -16,7 +16,7 @@ class Livolo
   public:
     Livolo();
     Livolo(unsigned char pin);
-    setPin(unsigned char pin);
+    void setPin(unsigned char pin);
     void sendButton(unsigned int remoteID, unsigned char keycode);
   private:
     unsigned char txPin;
