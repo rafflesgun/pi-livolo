@@ -54,10 +54,22 @@ int p_short = 110;									// 110 works quite OK
 int p_long = 300;									// 300 works quite OK
 int p_start = 520;									// 520 works quite OK
 
+Livolo::Livolo()
+{
+    setPin(output_pin);
+}
+
 Livolo::Livolo(unsigned char pin)
 {
-  pinMode(pin, OUTPUT);
-  txPin = pin;
+    setPin(pin);
+}
+
+// =======================================================================================
+// Update PIN
+//
+void Livolo::setPin(unsigned char pin) {
+    pinMode(pin, OUTPUT);
+    txPin = pin;
 }
 
 // keycodes #1: 0, #2: 96, #3: 120, #4: 24, #5: 80, #6: 48, #7: 108, #8: 12, #9: 72; #10: 40, #OFF: 106
